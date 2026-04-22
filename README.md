@@ -2,6 +2,9 @@
 
 > A mystical fork-resolution skill for agent workflows.  
 > 一个面向 Agent 工作流的“玄学拍板”技能。
+>
+> 当理性分析只剩平局，玄机决负责落下最后一锤。  
+> When rational analysis produces a draw, xuanji-decision delivers the final ruling.
 
 ---
 
