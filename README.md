@@ -1,7 +1,6 @@
 # xuanji-decision
 
 > A mystical fork-resolution skill for agent workflows.  
-> 一个面向 Agent 工作流的“玄学拍板”技能。
 >
 > 当理性分析只剩平局，玄机决负责落下最后一锤。  
 > When rational analysis produces a draw, xuanji-decision delivers the final ruling.
@@ -11,7 +10,7 @@
 ## 中文介绍
 
 **玄机决（xuanji-decision）** 是一个开源 Skill。  
-它不是泛人生算命器，而是一个**项目分叉点玄断插件**。
+一个**项目分叉点玄断插件**。
 
 当 Agent 在真实项目推进过程中遇到 A / B 两条都成立、继续理性分析只会拖慢推进的分叉点时，玄机决会把这个问题视作**一局未定之象**，借命理四书的判断框架给出一个带玄意的裁断，帮助流程继续前进。
 
