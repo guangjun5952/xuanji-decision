@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>玄机决｜短视频讲解PPT</title>
+  <style>
+    :root {
+      --bg: #f6f0e8;
+      --paper: rgba(255,255,255,0.42);
+      --ink: #171412;
+      --muted: #655a54;
+      --line: rgba(23, 20, 18, 0.14);
+      --accent: #8b5e3c;
+      --accent-2: #b1835a;
+      --accent-soft: rgba(139,94,60,0.12);
+      --shadow: 0 24px 80px rgba(60, 36, 24, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(177,131,90,0.12), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(139,94,60,0.10), transparent 26%),
+        linear-gradient(180deg, #f8f2ea 0%, #f2ebe3 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(23,20,18,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23,20,18,0.02) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      opacity: .45;
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 4vw;
+      padding: 5vh 5vw 6vh;
+      opacity: 0;
+      transform: translateY(20px) scale(.985);
+      transition: opacity .55s ease, transform .55s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .slide.single {
+      grid-template-columns: 1fr;
+    }
+
+    .left, .right {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-weight: 600;
+      line-height: .95;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(58px, 8vw, 124px);
+      max-width: 8ch;
+    }
+
+    h2 {
+      font-size: clamp(38px, 5.2vw, 78px);
+      max-width: 10ch;
+      margin-bottom: 18px;
+    }
+
+    .lead {
+      font-size: clamp(18px, 1.8vw, 28px);
+      line-height: 1.5;
+      color: var(--muted);
+      max-width: 22em;
+      margin-top: 22px;
+    }
+
+    .hero-note {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.35);
+      color: var(--muted);
+      font-size: 14px;
+      width: fit-content;
+      backdrop-filter: blur(10px);
+    }
+
+    .quote {
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(28px, 3vw, 46px);
+      line-height: 1.18;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      margin: 36px 0 0;
+      max-width: 12ch;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 28px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .panel.soft {
+      background: linear-gradient(180deg, rgba(255,255,255,.50), rgba(255,255,255,.28));
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .meta-box {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 140px;
+      background: rgba(255,255,255,.24);
+    }
+
+    .meta-box .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .meta-box .value {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .big-num {
+      font-family: Georgia, serif;
+      font-size: clamp(68px, 8vw, 140px);
+      color: rgba(139,94,60,.18);
+      line-height: .9;
+      margin-bottom: 12px;
+    }
+
+    ul.clean {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    ul.clean li {
+      padding: 14px 0 14px 18px;
+      border-top: 1px solid var(--line);
+      position: relative;
+      line-height: 1.55;
+      color: var(--muted);
+      font-size: clamp(16px, 1.45vw, 22px);
+    }
+
+    ul.clean li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: Georgia, serif;
+      font-size: 22px;
+    }
+
+    .step h3 {
+      margin: 0 0 6px;
+      font-size: clamp(18px, 1.6vw, 24px);
+      font-weight: 600;
+    }
+
+    .step p {
+      margin: 0;
+      font-size: clamp(15px, 1.25vw, 19px);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .script {
+      font-size: clamp(18px, 1.55vw, 24px);
+      line-height: 1.75;
+      color: var(--ink);
+      white-space: pre-line;
+    }
+
+    .script strong { color: var(--accent); }
+
+    .mini {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.32);
+      color: var(--ink);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(255,255,255,.65);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 40px rgba(0,0,0,.08);
+      z-index: 99;
+    }
+
+    .nav button {
+      border: 0;
+      background: white;
+      color: var(--ink);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+
+    .counter {
+      font-size: 13px;
+      letter-spacing: .14em;
+      color: var(--muted);
+      text-transform: uppercase;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,.45);
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+    }
+
+    .kicker {
+      font-size: clamp(16px, 1.3vw, 20px);
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 24em;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+      margin: 24px 0;
+    }
+
+    .two-col-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .two-col-list .item {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      font-size: clamp(15px, 1.15vw, 18px);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .screen-mock {
+      position: relative;
+      border-radius: 28px;
+      background: #12100f;
+      padding: 18px;
+      color: #f6f0e8;
+      box-shadow: var(--shadow);
+      min-height: 420px;
+      overflow: hidden;
+    }
+
+    .screen-mock::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 85% 12%, rgba(177,131,90,.35), transparent 28%);
+      pointer-events: none;
+    }
+
+    .window-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.26);
+    }
+
+    .screen-title {
+      font-family: Georgia, serif;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.05;
+      margin: 8px 0 18px;
+      max-width: 8ch;
+    }
+
+    .screen-text {
+      color: rgba(246,240,232,.78);
+      line-height: 1.7;
+      font-size: clamp(15px, 1.15vw, 18px);
+      max-width: 34ch;
+    }
+
+    .bullet-chip {
+      display: inline-block;
+      margin: 8px 8px 0 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: 13px;
+      color: rgba(246,240,232,.92);
+    }
+
+    .closing {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      height: 100%;
+    }
+
+    .closing h2 {
+      max-width: none;
+      font-size: clamp(52px, 7vw, 110px);
+      margin-bottom: 20px;
+    }
+
+    .closing p {
+      max-width: 720px;
+      font-size: clamp(18px, 1.6vw, 26px);
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 auto;
+    }
+
+    .link {
+      margin-top: 28px;
+      font-size: clamp(16px, 1.4vw, 22px);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 980px) {
+      .slide,
+      .slide.single {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        padding: 26px 20px 100px;
+      }
+
+      .nav { bottom: 14px; }
+      body { overflow: auto; }
+    }
+
+    @media print {
+      html, body {
+        overflow: visible;
+        background: white;
+      }
+      .slide {
+        position: relative;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        min-height: 100vh;
+      }
+      .nav, .progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <main class="deck" id="deck">
+    <section class="slide active" data-title="封面">
+      <div class="left">
+        <div>
+          <div class="eyebrow">xuanji-decision / video explainer</div>
+          <h1>玄机决</h1>
+          <p class="lead">一个给 Agent 工作流用的玄学决策 skill。不是替代理性，而是在理性分析打平之后，替你落下最后一锤。</p>
+          <div class="hero-note">风格方向：奶油底 · 衬线标题 · 大留白 · 电脑录屏 + 口播小窗</div>
+          <div class="quote">当理性分析只剩平局，玄机决负责落下最后一锤。</div>
+        </div>
+        <div class="footer">
+          <span>presentation draft</span>
+          <span>by guangjun5952</span>
+        </div>
+      </div>
+      <div class="right">
+        <div class="screen-mock">
+          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="screen-title">A divination-style fork resolver.</div>
+          <div class="screen-text">适用于那种最烦的项目时刻：A 有道理，B 也有道理，分析半天还是得先选一个。玄机决不是让你更纠结，而是让你先动起来。</div>
+          <div style="margin-top:18px;">
+            <span class="bullet-chip">Agent Skill</span>
+            <span class="bullet-chip">Decision-Making</span>
+            <span class="bullet-chip">Metaphysics</span>
+            <span class="bullet-chip">Open Source</span>
+          </div>
+        </div>
+        <div class="panel soft" style="margin-top:20px;">
+          <div class="meta-grid">
+            <div class="meta-box">
+              <div class="label">视频用途</div>
+              <div class="value">讲清楚：它是什么、为什么做、怎么设计、怎么实测、以及怎么去 GitHub 玩。</div>
+            </div>
+            <div class="meta-box">
+              <div class="label">视频结构</div>
+              <div class="value">开场钩子 → 动机 → 设计思路 → 实测 → 感受 → 开源引导</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="开头">
+      <div class="left">
+        <div class="eyebrow">01 / opening hook</div>
+        <h2>开头：先把人钩住</h2>
+        <p class="lead">核心不是“我做了一个 skill”，而是“我本来半开玩笑做了个东西，结果它居然真的能解决一个很现实的问题”。</p>
+        <ul class="clean">
+          <li>先抛反差：本来是玩笑，结果真有用。</li>
+          <li>再抛问题：很多时候不是没答案，是两个答案都有道理。</li>
+          <li>最后抛结论：这时需要的不是再分析一轮，而是一个拍板机制。</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="panel">
+          <div class="big-num">01</div>
+          <div class="script">我做了一个用玄学做决策的 skill。<br><br>我一开始其实是有点开玩笑去做这个 skill。因为我发现，很多时候做项目做到后面，Agent 会问你：你想选 A 还是选 B？你这个产品到底想走哪个方向？<br><br>然后你就会发现一个很现实的问题：<strong>很多时候你不是没有答案，是两个都有道理的。</strong><br><br>你理性分析，通常最后只会得到一个结论：看你更想要什么。但问题是，怎么样你都得先选一个。</div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>电脑录屏扫过 GitHub 仓库首页、skill 文件夹、README 标语。你的口播小窗放右下角，第一句就直接说“我做了一个用玄学做决策的 skill”。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="为什么做">
+      <div class="left">
+        <div class="eyebrow">02 / why this exists</div>
+        <h2>为什么会想到做它</h2>
+        <p class="kicker">因为普通决策工具太理性，理性到最后常常没有力量。你缺的不是更多分析，你缺的是有人替你把最后那一下锤下去。</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div><h3>理性会把你带到平局</h3><p>AB 都说得通，最后只剩一句：看你更想要什么。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div><h3>但项目不能永远停在“都可以”</h3><p>现实不是论文答辩，项目得继续推，方向得先落一子。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div><h3>所以让玄学负责最后拍板</h3><p>不是替代前面的理性，而是接在理性后面，专门负责收口。</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="panel">
+          <div class="script">所以我当时就在想，当理性已经没办法做决策的时候，能不能做一个 skill，让玄学来替你算一卦决定。<br><br>你决定不了的时候，就让它来负责最后拍板。<br><br>而且因为普通决策工具太理性了，理性到最后常常没有力量。</div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>录屏展示你和 Agent 的对话界面，高亮“选 A 还是 B”“两个都对”“项目不能停”。字幕可以逐个打：理性分析 / 平局 / 最后拍板。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="设计思路">
+      <div class="left">
+        <div class="eyebrow">03 / design logic</div>
+        <h2>我是怎么设计它的</h2>
+        <p class="lead">主公这页要显得“你不是瞎搞一个玄学玩具”，而是认真把它做成了一个能嵌进工作流的技能。</p>
+        <div class="two-col-list">
+          <div class="item"><strong>定位</strong><br>不是泛人生算命器，而是 Agent 项目流程里的分叉点裁决 skill。</div>
+          <div class="item"><strong>触发时机</strong><br>当项目出现 A / B 分叉，且继续分析只会拖慢推进时。</div>
+          <div class="item"><strong>设计原则</strong><br>让它像真断局，不像廉价算命，也不像干瘪顾问。</div>
+          <div class="item"><strong>输出目标</strong><br>不是“都行”，而是明确拍板 + 行动令。</div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="panel">
+          <div class="script">但我也不想把它做成那种很廉价的算命玩具。<br><br>所以我设计了一下：当你项目产生分叉点的时候，你就可以调用这个 skill。<br><br>我给它搭了一套玄学推导框架，参考的主要是命理四书。它不是上来就告诉你“你适合 A”。而是会先判断：这个局现在是该顺势，还是该收；是该先补眼前最缺的，还是继续突破；先选有效的，还是选个好看的。</div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>录屏打开 skill 目录结构，停一下 `SKILL.md` 和 `references/`。镜头重点给到“workflow-and-prompt”“decision-point-mapping”“divination-lexicon”。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="四书框架">
+      <div class="left">
+        <div class="eyebrow">04 / four-book system</div>
+        <h2>玄学框架怎么搭</h2>
+        <p class="lead">这一页负责建立记忆点。别讲太细，但要让人听完知道：这不是乱编，是有一套判断骨架的。</p>
+        <ul class="clean">
+          <li><strong>《滴天髓》</strong>：看势。判断现在该顺着走，还是逆着扛。</li>
+          <li><strong>《穷通宝鉴》</strong>：看你当前最缺什么。是缺火候、缺根气，还是缺稳定。</li>
+          <li><strong>《渊海子平》</strong>：看这个选择能不能成局。哪个更有体，哪个只是表面好看。</li>
+          <li><strong>《三命通会》</strong>：看时机对不对。现在该先发、先收、先试，还是先缓。</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="screen-mock">
+          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="screen-title">四书不是拿来算命，是拿来给项目断局。</div>
+          <div class="screen-text">你调用的时候，它会先观势、再调候、再辨格局、最后察时机。最后的目标不是说玄，而是给你一个能落地的裁断。</div>
+          <div style="margin-top: 20px;">
+            <span class="bullet-chip">观势</span>
+            <span class="bullet-chip">调候</span>
+            <span class="bullet-chip">辨格局</span>
+            <span class="bullet-chip">察时机</span>
+          </div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>四个概念分别配四个关键词字幕轮流打出来。背景继续是代码 / 文档录屏，不要做成玄学小广告，保持高级感。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="实测使用">
+      <div class="left">
+        <div class="eyebrow">05 / live test</div>
+        <h2>它怎么实测使用</h2>
+        <p class="lead">你原文这里空着，我先替你补一个最稳的案例，不然视频讲到这会断气。</p>
+        <div class="panel soft">
+          <div class="mini"><strong>推荐案例</strong><br>“我当时拿它测的是：这个 skill 的视频，到底应该先做一个更理性、像产品介绍的版本，还是先做一个更情绪化、像故事分享的版本？”<br><br>这个例子贴你现在正在做的 PPT，本身就自洽，也不用硬编别的项目。</div>
+        </div>
+        <div class="tag-row">
+          <div class="tag">理性介绍版</div>
+          <div class="tag">情绪故事版</div>
+          <div class="tag">都说得通</div>
+          <div class="tag">必须先选一个</div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="panel">
+          <div class="script">比如我前面就在拿一个项目测试它。<br><br>我当时就在想：我这个介绍玄机决的内容，到底应该先做一个更理性、更像产品介绍的版本，还是先做一个更情绪化、更像故事分享的版本？<br><br>你会发现这两个方向都不是错的，而且你越分析越容易卡住。<br><br>这个时候玄机决给出的判断就很有意思。它会把这件事当成一个局来断，最后帮你落到一边。重点不在于它是不是“绝对正确”，而在于它真的帮你结束了犹豫。</div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>录屏展示一段真实测试输入，然后切到输出结果。重点框一句结论，旁边配你的小窗点评：“我觉得有意思的是，它不是瞎选，它是在替我把最后那一下锤下来。”</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="感受">
+      <div class="left">
+        <div class="eyebrow">06 / reflection</div>
+        <h2>我的感受</h2>
+        <p class="lead">这页要真，不要太像总结陈词。它最有劲的地方，就是那种“本来觉得这玩意儿有点闹，结果越做越发现它真能解决问题”的反差。</p>
+        <div class="quote">现实里很多决策不是数学题。你缺的不是更多分析，你缺的是一个能让你先往前走的拍板机制。</div>
+      </div>
+      <div class="right">
+        <div class="panel">
+          <div class="script">所以我现在对这个 skill 的态度挺有趣的。<br><br>我本来是带点玩笑心态随手做的，但做着做着发现，它真的能帮我处理很多没有绝对正确答案的局面。<br><br>如果你有选择恐惧的话，让命来替你做这个决定，可能还真的会指向你想要的效果。<br><br>现实里很多决策本来就不是数学题。不是说你多分析一轮，就能突然出现唯一正确解。很多时候你缺的不是更多分析，你缺的是一个能帮你停止犹豫、先往前走的拍板机制。</div>
+        </div>
+        <div class="panel soft" style="margin-top:18px;">
+          <div class="mini"><strong>画面建议</strong><br>这里建议你小窗变大一点，录屏缩成背景。因为这段更像态度表达，不需要一直切文件，靠你本人说服力就够。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="开源结尾">
+      <div class="left">
+        <div class="eyebrow">07 / open source</div>
+        <h2>结尾 + 开源引导</h2>
+        <p class="lead">结尾别太硬广。口气像“我把这个东西丢出来了，你们也可以拿去玩”，会更自然。</p>
+        <ul class="clean">
+          <li>名字：<strong>xuanji-decision</strong></li>
+          <li>GitHub：<strong>guangjun5952/xuanji-decision</strong></li>
+          <li>可用于 Agent 工作流，也可以日常自己做选择时玩玩。</li>
+          <li>更适合选择恐惧、AB 都对、但又必须先动的人。</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="screen-mock">
+          <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="screen-title">xuanji-decision is now open source.</div>
+          <div class="screen-text">把它装进你的 workflow 里，或者干脆在你自己的人生小决策里试试看。也许你缺的真不是更多分析，而是一个更有力的裁断。</div>
+          <div style="margin-top:20px;">
+            <span class="bullet-chip">GitHub</span>
+            <span class="bullet-chip">Open Source</span>
+            <span class="bullet-chip">Try It</span>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:18px;">
+          <div class="script">我把这个 skill 也开源了。名字叫 <strong>xuanji-decision</strong>。<br><br>如果你对这个 skill 感兴趣，可以去 GitHub 上搜 <strong>xuanji-decision</strong>。<br><br>把它装到你的工作流里玩玩，甚至也可以在你自己平时生活里做选择的时候试试。它可能真的会帮到你。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide single" data-title="拍摄提示">
+      <div class="closing">
+        <div>
+          <div class="eyebrow">08 / notes</div>
+          <h2>拍摄提示</h2>
+          <p>主画面以电脑录屏 + 口播小窗为主。录屏负责证明你真的做了这个项目，小窗负责建立“这是你本人在认真讲”的信任感。语气别像念稿，更像“我最近做了个东西，越做越觉得有意思，我给你讲讲”。</p>
+          <div class="link">建议时长：2–4 分钟 ｜ 当前 HTML 可直接全屏播放 / 录屏 / 打印成 PDF</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="nav">
+    <button id="prevBtn" aria-label="上一页">←</button>
+    <div class="counter" id="counter">01 / 08</div>
+    <button id="nextBtn" aria-label="下一页">→</button>
+  </div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    let current = 0;
+
+    function updateSlides(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      const currentText = String(current + 1).padStart(2, '0');
+      const totalText = String(slides.length).padStart(2, '0');
+      counter.textContent = `${currentText} / ${totalText}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      document.title = `玄机决｜${slides[current].dataset.title}`;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => updateSlides(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => updateSlides(current + 1));
+
+    window.addEventListener('keydown', (e) => {
+      if (["ArrowRight", "PageDown", " "].includes(e.key)) {
+        e.preventDefault();
+        updateSlides(current + 1);
+      }
+      if (["ArrowLeft", "PageUp"].includes(e.key)) {
+        e.preventDefault();
+        updateSlides(current - 1);
+      }
+      if (e.key.toLowerCase() === 'home') updateSlides(0);
+      if (e.key.toLowerCase() === 'end') updateSlides(slides.length - 1);
+    });
+
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => touchStartX = e.changedTouches[0].clientX, {passive: true});
+    window.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) > 60) {
+        if (diff < 0) updateSlides(current + 1);
+        else updateSlides(current - 1);
+      }
+    }, {passive: true});
+
+    updateSlides(0);
+  </script>
+</body>
+</html>
